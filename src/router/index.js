@@ -1,18 +1,26 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: () => import('../views/Home.vue')
+    path: "/",
+    name: "Home",
+    redirect:'roulette', // 起始導到 roulette
+    component: () => import("../views/Home.vue"),
+    children: [
+      {
+        path: "roulette",
+        name: "Roulette",
+        component: () => import("../component/roulette.vue")
+      },
+    ],
   },
-]
+];
 
 const router = new VueRouter({
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
