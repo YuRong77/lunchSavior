@@ -13,3 +13,14 @@ export default {
   components: {},
 };
 </script>
+
+<style lang="scss">
+.home {
+  max-width: 1200px;
+  margin: 0 auto;
+  & h1 {
+    padding: 50px 0;
+  }
+}
+
+</style>
