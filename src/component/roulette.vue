@@ -2,6 +2,10 @@
   <div>
     <div class="container">
       <div class="circle">
+        <div class="hand" :style="{ transform: `rotate(${pointerRotate}deg)` }">
+          <button @click="gameStart">開始</button>
+          <div class="pointer"></div>
+        </div>
         <div
           class="fan"
           v-for="(item, index) in list"
@@ -14,7 +18,7 @@
             class="inner"
             :style="{
               transform: `rotate(${360 / list.length}deg)`,
-              background: list.length % 2 == 0 ? even(index) : odd(index),
+              background: getHSL[index],
             }"
           ></div>
         </div>
@@ -33,47 +37,90 @@
           <h3>{{ item.text }}</h3>
         </div>
       </div>
+      <div class="add">
+        <input type="text" v-model="newlist" />
+        <input type="text" v-model="listNum" />
+        <button @click="addlist">新增</button>
+        <button @click="dellist">刪除</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  computed: {},
+  computed: {
+    prizePool() {
+      const allList = [];
+      this.list.forEach((item) => {
+        for (let i = 0; i < item.num; i++) {
+          allList.push(item);
+        }
+      });
+      return allList;
+    },
+    getHSL() {
+      const colorList = [];
+      this.list.forEach((item) => {
+        colorList.push(
+          `hsl(${360 * Math.random()},${20 + 70 * Math.random()}%,${
+            80 + 10 * Math.random()
+          }%)`
+        );
+      });
+      return colorList // 直接 return 隨機色有問題 改成用陣列
+    },
+  },
   data() {
     return {
       list: [
-        { text: "測試1", num: 1 },
-        { text: "測試2", num: 1 },
+        { text: "測試1", num: 2 },
+        { text: "測試2", num: 2 },
         { text: "測試3", num: 1 },
         { text: "測試4", num: 1 },
         { text: "測試5", num: 1 },
-        // { text: "測試6", num: 1 },
-        // { text: "測試7", num: 1 },
+        { text: "測試6", num: 1 },
       ],
-      color0: "pink",
-      color1: "gray",
-      color2: "red",
+      newlist: "",
+      listNum: "",
+      pointerRotate: "",
     };
   },
   methods: {
-    even(index) {
-      console.log(2);
-      const val = index + 10;
-      return val % 2 == 0 ? this.color0 : this.color1;
+    gameStart() {
+      const prizePoolIdx = ~~(Math.random() * this.prizePool.length); // 隨機選出 index
+      console.log("獎池陣列", this.prizePool);
+      console.log("prizePoolIdx", prizePoolIdx);
+      console.log("獎池選中物件", this.prizePool[prizePoolIdx]);
+      const resultIdx = this.list.findIndex(
+        (item) => item == this.prizePool[prizePoolIdx]
+      );
+      console.log("resultIdx", resultIdx);
+      console.log(
+        (360 / this.list.length) * resultIdx + 180 / this.list.length
+      ); // 指針需要轉的角度
+      this.pointerRotate =
+        (360 / this.list.length) * resultIdx + 180 / this.list.length + 720;
+      // this.getRotate(rotate);
     },
-    odd(index) {
-      console.log(3);
-      const val = index + 10;
-      if (val % 3 == 0) {
-        return this.color0;
-      }
-      if (val % 3 == 1) {
-        return this.color1;
-      }
-      if (val % 3 == 2) {
-        return this.color2;
-      }
+    // getHSL() {
+    //   return `hsl(${360 * Math.random()},${20 + 70 * Math.random()}%,${
+    //     80 + 10 * Math.random()
+    //   }%)`;
+    // },
+    // getRotate(rotate) {
+    //   console.log(rotate)
+    //   return `rotate(${rotate}deg)`
+    // },
+    addlist() {
+      const item = {
+        text: this.newlist,
+        num: this.listNum,
+      };
+      this.list.push(item);
+    },
+    dellist() {
+      this.list.splice(0, 1);
     },
   },
   created() {},
@@ -88,6 +135,25 @@ export default {
   border-radius: 50%;
   border: 2px solid whitesmoke;
   & .circle {
+    & .hand {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transition: all 3s;
+      z-index: 10;
+      & {
+        .pointer {
+          position: absolute;
+          top: 100px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 10px;
+          height: 120px;
+          background: black;
+          z-index: 10;
+        }
+      }
+    }
     & .fan {
       position: absolute;
       // top: 0;
@@ -97,6 +163,9 @@ export default {
       border-radius: 50%;
       overflow: hidden;
       clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%);
+      pointer-events: none; // 讓元素無法被點擊
+
+      // border: 3px solid black;
       & .inner {
         position: absolute;
         // top: 0;
@@ -110,13 +179,13 @@ export default {
     }
   }
   & .content {
-    // position: absolute;
     width: 100%;
     height: 100%;
     & .text {
       position: absolute;
       width: 100%;
       height: 100%;
+      pointer-events: none; // 讓元素無法被點擊
       & h3 {
         position: absolute;
         top: 10%;
@@ -124,6 +193,9 @@ export default {
         transform: translate(50%, -50%);
       }
     }
+  }
+  & .add {
+    margin: 80px 0;
   }
 }
 </style>
