@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="container">
+    <div class="container px-0">
+      <!-- <b-form-rating id="rating-inline" variant="warning" stars="3" inline v-model="stars"></b-form-rating> -->
       <div class="circle">
         <div class="hand" :style="{ transform: `rotate(${pointerRotate}deg)` }">
           <button @click="gameStart">開始</button>
@@ -38,22 +39,33 @@
         </div>
       </div>
       <div class="add">
-        <input type="text" v-model="newlist" />
-        <input type="text" v-model="listNum" />
-        <button @click="addlist">新增</button>
-        <button @click="dellist">刪除</button>
+        <button @click="editList">編輯</button>
+        
       </div>
     </div>
+
+    <rouletteList
+      :list="list"
+      :changeList.sync="list"
+      :isShow.sync="showEditList"
+      v-show="showEditList"
+    />
+    
+    
   </div>
 </template>
 
 <script>
+import rouletteList from "@/component/popup/rouletteList";
 export default {
+  components: {
+    rouletteList,
+  },
   computed: {
     prizePool() {
       const allList = [];
       this.list.forEach((item) => {
-        for (let i = 0; i < item.num; i++) {
+        for (let i = 0; i < item.qty; i++) {
           allList.push(item);
         }
       });
@@ -68,22 +80,22 @@ export default {
           }%)`
         );
       });
-      return colorList // 直接 return 隨機色有問題 改成用陣列
+      return colorList; // 直接 return 隨機色有問題 改成用陣列
     },
   },
   data() {
     return {
+      showEditList: false,
       list: [
-        { text: "測試1", num: 2 },
-        { text: "測試2", num: 2 },
-        { text: "測試3", num: 1 },
-        { text: "測試4", num: 1 },
-        { text: "測試5", num: 1 },
-        { text: "測試6", num: 1 },
+        { text: "測試1", qty: 2 },
+        { text: "測試2", qty: 2 },
+        { text: "測試3", qty: 1 },
+        { text: "測試4", qty: 1 },
+        { text: "測試5", qty: 1 },
+        { text: "測試6", qty: 1 },
       ],
-      newlist: "",
-      listNum: "",
       pointerRotate: "",
+      // stars: "1",
     };
   },
   methods: {
@@ -112,15 +124,8 @@ export default {
     //   console.log(rotate)
     //   return `rotate(${rotate}deg)`
     // },
-    addlist() {
-      const item = {
-        text: this.newlist,
-        num: this.listNum,
-      };
-      this.list.push(item);
-    },
-    dellist() {
-      this.list.splice(0, 1);
+    editList() {
+      this.showEditList = true;
     },
   },
   created() {},
