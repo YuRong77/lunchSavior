@@ -21,3 +21,5 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+src/assets/font/setofont.ttf
+src/assets/scss/helpers/_variables.scss
