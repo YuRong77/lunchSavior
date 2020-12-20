@@ -1,0 +1,19 @@
+@import "~bootstrap/scss/functions";
+@import "./helpers/_variables"; // 要在 functions 後
+
+@import '~bootstrap-vue/dist/bootstrap-vue.css';
+@import "~bootstrap/scss/bootstrap.scss";
+
+@font-face {
+  font-family: setofont;
+  src: url(./assets/font/setofont.ttf);
+}
+html body {
+  font-family: -apple-system, setofont, "Microsoft JhengHei", "Segoe UI",
+    "Roboto", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+}
+img {
+  max-width: 100%;
+}
+

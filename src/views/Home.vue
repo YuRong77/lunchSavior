@@ -16,8 +16,6 @@ export default {
 
 <style lang="scss">
 .home {
-  max-width: 1200px;
-  margin: 0 auto;
   & h1 {
     padding: 50px 0;
   }

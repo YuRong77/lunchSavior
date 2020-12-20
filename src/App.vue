@@ -4,9 +4,7 @@
   </div>
 </template>
 
-<style>
-*{
-  margin: 0;
-  padding: 0;
-}
+<style lang="scss">
+@import './assets/scss/all.scss';
 </style>
+

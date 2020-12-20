@@ -40,7 +40,6 @@
       </div>
       <div class="add">
         <button @click="editList">編輯</button>
-        
       </div>
     </div>
 
