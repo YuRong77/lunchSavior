@@ -3,12 +3,11 @@ import App from './App.vue'
 import router from './router'
 
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import animate from 'animate.css'
 
-
-
-// import './custom.scss'
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+Vue.use(animate);
 
 Vue.config.productionTip = false
 
