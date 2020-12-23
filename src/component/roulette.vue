@@ -4,8 +4,10 @@
       <!-- <b-form-rating id="rating-inline" variant="warning" stars="3" inline v-model="stars"></b-form-rating> -->
       <div class="circle">
         <div class="hand" :style="{ transform: `rotate(${pointerRotate}deg)` }">
-          <button @click="gameStart">開始</button>
           <div class="pointer"></div>
+        </div>
+        <div class="startBtn">
+          <button @click="gameStart">開始</button>
         </div>
         <div
           class="fan"
@@ -19,7 +21,7 @@
             class="inner"
             :style="{
               transform: `rotate(${360 / list.length}deg)`,
-              background: getHSL[index],
+              background: `linear-gradient(to top, ${getHSL[0][index]}, ${getHSL[1][index]})`,
             }"
           ></div>
         </div>
@@ -36,6 +38,7 @@
           }"
         >
           <h3>{{ item.text }}</h3>
+          <h4 class="badge bg-light px-2">{{ item.qty }}</h4>
         </div>
       </div>
       <div class="add">
@@ -49,8 +52,6 @@
       :isShow.sync="showEditList"
       v-show="showEditList"
     />
-    
-    
   </div>
 </template>
 
@@ -71,15 +72,21 @@ export default {
       return allList;
     },
     getHSL() {
-      const colorList = [];
+      const lightList = [];
+      const darkList = [];
       this.list.forEach((item) => {
-        colorList.push(
-          `hsl(${360 * Math.random()},${20 + 70 * Math.random()}%,${
-            80 + 10 * Math.random()
-          }%)`
+        const radom = Math.random();
+        const radom2 = Math.random();
+        const radom3 = Math.random();
+        lightList.push(
+          `hsl(${360 * radom},${20 + 70 * radom2}%,${85 + 10 * radom3}%)`
+        );
+        darkList.push(
+          `hsl(${360 * radom},${20 + 60 * radom2}%,${55 + 10 * radom3}%)`
         );
       });
-      return colorList; // 直接 return 隨機色有問題 改成用陣列
+      console.log([lightList, darkList], 777);
+      return [lightList, darkList]; // 直接 return 隨機色有問題 改成用陣列
     },
   },
   data() {
@@ -127,15 +134,17 @@ export default {
       this.showEditList = true;
     },
   },
-  created() {},
+  created() {
+    console.log(this.getHSL[1][1]);
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .container {
   position: relative;
-  width: 500px;
-  height: 500px;
+  width: 450px;
+  height: 450px;
   border-radius: 50%;
   border: 2px solid whitesmoke;
   & .circle {
@@ -145,17 +154,35 @@ export default {
       height: 100%;
       transition: all 3s;
       z-index: 10;
-      & {
-        .pointer {
-          position: absolute;
-          top: 100px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 10px;
-          height: 120px;
-          background: black;
-          z-index: 10;
-        }
+      & .pointer {
+        position: absolute;
+        top: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-color: transparent transparent #fce40e transparent;
+        border-width: 0 25px 90px 25px;
+        z-index: 10;
+      }
+    }
+    & .startBtn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      padding: 10px;
+      background-image: linear-gradient(to right, #ffac31, #fce40e);
+      z-index: 15;
+      & button {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 5px transparent solid;
       }
     }
     & .fan {
@@ -193,6 +220,12 @@ export default {
       & h3 {
         position: absolute;
         top: 10%;
+        right: 50%;
+        transform: translate(50%, -50%);
+      }
+      & h4 {
+        position: absolute;
+        top: 17%;
         right: 50%;
         transform: translate(50%, -50%);
       }
