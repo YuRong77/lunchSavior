@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home container text-center">
     <h1>午餐吃甚麼</h1>
     <div class="roulette">
       <router-view></router-view>

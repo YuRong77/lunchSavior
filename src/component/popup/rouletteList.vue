@@ -2,7 +2,9 @@
   <div>
     <div class="roulletteList">
       <!-- animate 跟有設 position 的 div 做在一起有問題 改到下層 -->
-      <div class="bg-light animate__animated animate__fadeInDown animate__faster p-4"> 
+      <div
+        class="bg-light animate__animated animate__fadeInDown animate__faster p-4"
+      >
         <h2 class="text-center mb-3">我的清單</h2>
         <div class="input-group w-75 mx-auto mb-5">
           <input type="text" class="form-control" v-model="newItem" />
@@ -14,7 +16,7 @@
           class="table d-block w-75 mx-auto mb-5"
           style="height: 380px; overflow-y: auto"
         >
-          <tr v-for="(item, index) in list" :key="item.text">
+          <tr v-for="(item, index) in lunchList" :key="item.text">
             <td width="120" class="h4">{{ item.text }}</td>
             <td>
               <b-form-rating
@@ -45,8 +47,12 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
+
 export default {
-  props: ["list"],
+  computed: {
+    ...mapState(["lunchList"]),
+  },
   data() {
     return {
       newItem: "",
@@ -55,18 +61,18 @@ export default {
   },
   methods: {
     close() {
-      this.$emit("update:isShow", false);
+      this.$store.commit("toggleEdit")
     },
     addlist() {
       const item = {
         text: this.newItem,
         qty: "3",
       };
-      this.list.push(item);
+      this.$store.commit("addList", item)
       this.newItem = "";
     },
     delItem(idx) {
-      this.list.splice(idx, 1);
+      this.$store.commit("delItem", idx)
     },
   },
   created() {},
