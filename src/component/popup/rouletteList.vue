@@ -13,8 +13,8 @@
           </div>
         </div>
         <table
-          class="table d-block w-75 mx-auto mb-5"
-          style="height: 380px; overflow-y: auto"
+          class="table d-block w-75 overflow-auto mx-auto mb-5"
+          style="height: 380px;"
         >
           <tr v-for="(item, index) in lunchList" :key="item.text">
             <td width="120" class="h4">{{ item.text }}</td>

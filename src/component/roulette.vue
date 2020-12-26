@@ -45,8 +45,21 @@
           <h4 class="badge bg-light px-2">{{ item.qty }}</h4>
         </div>
       </div>
-      <div class="edit">
-        <button @click="editList">編輯</button>
+      <div class="edit p-3 d-flex justify-content-around">
+        <button
+          type="button"
+          class="btn btn-warning rounded-pill px-4"
+          @click="editList"
+        >
+          編輯清單
+        </button>
+        <button
+          type="button"
+          class="btn btn-warning rounded-pill px-4"
+          @click="editList"
+        >
+          切換遊戲
+        </button>
       </div>
     </div>
 
@@ -109,8 +122,8 @@ export default {
         (item) => item == this.prizePool[prizePoolIdx]
       );
       this.$refs.hand.style.transition = `transform ${
-        // Math.floor(Math.random() * (12 - 8)) + 8
-        Math.floor(Math.random() * (3 - 1)) + 1
+        Math.floor(Math.random() * (12 - 8)) + 8
+        // Math.floor(Math.random() * (3 - 1)) + 1
       }s`;
       this.pointerRotate =
         (360 / this.lunchList.length) * resultIdx +
@@ -145,8 +158,12 @@ export default {
   height: 450px;
   border-radius: 50%;
   border: 10px solid rgb(255, 200, 20);
+  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.2);
+  @media (max-width: 600px) {
+    width: 290px;
+    height: 290px;
+  }
   & .circle {
-    
     & .hand {
       position: absolute;
       width: 100%;
@@ -166,12 +183,12 @@ export default {
         height: 90px;
         clip-path: polygon(50% 0, 95% 55%, 70% 100%, 30% 100%, 5% 55%);
         background-image: linear-gradient(to right, #ffac31, #fce40e);
-        // width: 0;
-        // height: 0;
-        // border-style: solid;
-        // border-color: transparent transparent #fce40e transparent;
-        // border-width: 0 25px 90px 25px;
         z-index: 10;
+        @media (max-width: 600px) {
+          top: 55px;
+          width: 30px;
+          height: 55px;
+        }
       }
     }
     & .startBtn {
@@ -186,6 +203,10 @@ export default {
       background-image: linear-gradient(to right, #ffac31, #fce40e);
       box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
       z-index: 15;
+      @media (max-width: 600px) {
+        width: 90px;
+        height: 90px;
+      }
       & button {
         background-image: linear-gradient(to bottom, #ffffff, #ff3434, #df0000);
         box-shadow: inset 0px 0px 6px 1px #9c0000;
@@ -248,7 +269,10 @@ export default {
     }
   }
   & .edit {
-    margin: 80px 0;
+    width: 100%;
+    margin: 70px 0;
+    border-radius: 30px;
+    background: linear-gradient(to right, rgba(252, 235, 222, 0.5), rgba(255, 191, 132, 0.5));
   }
 }
 </style>
