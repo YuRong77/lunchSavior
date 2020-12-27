@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="roulette bg-rouletteBg py-4 py-md-5">
     <div class="container px-0">
       <!-- <b-form-rating id="rating-inline" variant="warning" stars="3" inline v-model="stars"></b-form-rating> -->
       <div class="circle">
@@ -41,25 +41,15 @@
             }deg)`,
           }"
         >
-          <h3 class="h4">{{ item.text }}</h3>
-          <h4 class="badge bg-light px-2">{{ item.qty }}</h4>
+          <h3>{{ item.text }}</h3>
+          <div class="qtyLight bg-light">
+            <div
+              class="light w-100 h-100"
+              :style="{ opacity: `${item.qty * 0.2}` }"
+            ></div>
+            <h5 class="m-0">{{ item.qty }}</h5>
+          </div>
         </div>
-      </div>
-      <div class="edit p-3 d-flex justify-content-around">
-        <button
-          type="button"
-          class="btn btn-warning rounded-pill px-4"
-          @click="editList"
-        >
-          編輯清單
-        </button>
-        <button
-          type="button"
-          class="btn btn-warning rounded-pill px-4"
-          @click="editList"
-        >
-          切換遊戲
-        </button>
       </div>
     </div>
 
@@ -138,9 +128,9 @@ export default {
         this.pointerRotate = "0";
       }, 500);
     },
-    editList() {
-      this.$store.commit("toggleEdit");
-    },
+    // editList() {
+    //   this.$store.commit("toggleEdit");
+    // },
   },
   mounted() {
     this.$refs.hand.addEventListener("transitionend", this.spinning);
@@ -152,6 +142,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.roulette {
+  border-radius: 50px;
+}
 .container {
   position: relative;
   width: 450px;
@@ -162,6 +155,10 @@ export default {
   @media (max-width: 600px) {
     width: 290px;
     height: 290px;
+  }
+  @media (max-width: 370px) {
+    width: 250px;
+    height: 250px;
   }
   & .circle {
     & .hand {
@@ -189,6 +186,11 @@ export default {
           width: 30px;
           height: 55px;
         }
+        @media (max-width: 370px) {
+          top: 50px;
+          width: 30px;
+          height: 55px;
+        }
       }
     }
     & .startBtn {
@@ -206,6 +208,10 @@ export default {
       @media (max-width: 600px) {
         width: 90px;
         height: 90px;
+      }
+      @media (max-width: 370px) {
+        width: 85px;
+        height: 85px;
       }
       & button {
         background-image: linear-gradient(to bottom, #ffffff, #ff3434, #df0000);
@@ -260,19 +266,43 @@ export default {
         right: 50%;
         transform: translate(50%, -50%);
       }
-      & h4 {
+      & .qtyLight {
         position: absolute;
-        top: 17%;
+        top: 18%;
         right: 50%;
         transform: translate(50%, -50%);
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        & .light {
+          border-radius: 50%;
+          // box-shadow: 0 0 5px 5px rgb(255, 255, 255);
+          animation-name: light;
+          animation-duration: 4s;
+          animation-iteration-count: infinite;
+        }
+        @keyframes light {
+          0% {
+            box-shadow: 0 0 5px 0px rgb(255, 255, 255),
+              0 0 5px 0px rgb(255, 230, 0);
+          }
+          50% {
+            box-shadow: 0 0 5px 5px rgb(255, 255, 255),
+              0 0 10px 10px rgb(255, 230, 0);
+          }
+          100% {
+            box-shadow: 0 0 5px 0px rgb(255, 255, 255),
+              0 0 5px 0px rgb(255, 230, 0);
+          }
+        }
+        & h5 {
+          position: absolute;
+          top: 50%;
+          right: 50%;
+          transform: translate(50%, -50%);
+        }
       }
     }
-  }
-  & .edit {
-    width: 100%;
-    margin: 70px 0;
-    border-radius: 30px;
-    background: linear-gradient(to right, rgba(252, 235, 222, 0.5), rgba(255, 191, 132, 0.5));
   }
 }
 </style>

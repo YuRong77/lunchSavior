@@ -3,7 +3,7 @@
     <div class="roulletteList">
       <!-- animate 跟有設 position 的 div 做在一起有問題 改到下層 -->
       <div
-        class="bg-light animate__animated animate__fadeInDown animate__faster p-4"
+        class="bg-light animate__animated animate__fadeInDown animate__faster py-4"
       >
         <h2 class="text-center mb-3">我的清單</h2>
         <div class="input-group w-75 mx-auto mb-5">
@@ -12,12 +12,11 @@
             <b-button variant="success" @click="addlist">新增</b-button>
           </div>
         </div>
-        <table
-          class="table d-block w-75 overflow-auto mx-auto mb-5"
-          style="height: 380px;"
-        >
-          <tr v-for="(item, index) in lunchList" :key="item.text">
-            <td width="120" class="h4">{{ item.text }}</td>
+        <table class="tableList table d-block overflow-auto mx-auto mb-4">
+          <tr class="" v-for="(item, index) in lunchList" :key="item.text">
+            <td width="120px">
+              <h4>{{ item.text }}</h4>
+            </td>
             <td>
               <b-form-rating
                 id="rating-inline"
@@ -31,9 +30,9 @@
             <td>
               <b-button
                 variant="none"
-                class="text-secondary"
+                class="text-secondary d-flex"
                 @click="delItem(index)"
-                ><b-icon icon="x" class="pt-1"></b-icon>刪除</b-button
+                ><b-icon icon="x" class=""></b-icon><h5 class="d-none d-md-block m-0">刪除</h5></b-button
               >
             </td>
           </tr>
@@ -61,18 +60,18 @@ export default {
   },
   methods: {
     close() {
-      this.$store.commit("toggleEdit")
+      this.$store.commit("toggleEdit");
     },
     addlist() {
       const item = {
         text: this.newItem,
         qty: "3",
       };
-      this.$store.commit("addList", item)
+      this.$store.commit("addList", item);
       this.newItem = "";
     },
     delItem(idx) {
-      this.$store.commit("delItem", idx)
+      this.$store.commit("delItem", idx);
     },
   },
   created() {},
@@ -84,9 +83,21 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) !important;
-  width: 600px;
+  width: 550px;
   height: 670px;
   z-index: 20;
+  @media (max-width: 600px) {
+    width: 350px;
+    height: 500px;
+  }
+  & .tableList {
+    width: 400px;
+    height: 380px;
+    @media (max-width: 600px) {
+      width: 350px;
+      height: 300px;
+    }
+  }
 }
 .bgDark {
   position: absolute;

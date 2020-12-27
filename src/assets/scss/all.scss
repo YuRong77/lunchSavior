@@ -1,7 +1,7 @@
 @import "~bootstrap/scss/functions";
 @import "./helpers/_variables"; // 要在 functions 後
 
-@import '~bootstrap-vue/dist/bootstrap-vue.css';
+@import "~bootstrap-vue/dist/bootstrap-vue.css";
 @import "~bootstrap/scss/bootstrap.scss";
 
 @font-face {
@@ -11,14 +11,54 @@
 html body {
   font-family: -apple-system, setofont, "Microsoft JhengHei", "Segoe UI",
     "Roboto", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol"; 
+    "Segoe UI Emoji", "Segoe UI Symbol";
   box-sizing: border-box;
   background: rgb(0, 1, 8);
+  ::-webkit-scrollbar {
+    width: 3px;
+    background-color: #ffffff;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #757575;
+  }
 }
+
 button:focus {
-  outline: none; 
+  outline: none;
 }
+
 img {
   max-width: 100%;
 }
 
+//1rem = 16px
+@media (min-width: 601px) {
+  h1 {
+    font-size: 4rem;
+  } 
+  h3 {
+    font-size: 1.6rem;
+  } 
+  h4 {
+    font-size: 1.3rem;
+  } 
+  h5 {
+    font-size: 1rem;
+  } 
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 3rem;
+  } 
+  h3 {
+    font-size: 1.2rem;
+  } 
+  h4 {
+    font-size: 1rem;
+  } 
+  h5 {
+    font-size: 0.8rem;
+  } 
+}
