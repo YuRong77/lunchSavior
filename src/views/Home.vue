@@ -1,6 +1,6 @@
 <template>
   <div class="home container d-flex flex-column justify-content-center py-3">
-    <h1 class="font-weight-bold text-title text-center">午餐吃甚麼</h1>
+    <h1 class="font-weight-bold text-mybrown text-center">午餐吃甚麼</h1>
 
     <router-view></router-view>
 
