@@ -27,7 +27,9 @@
               transform: `rotate(${360 / lunchList.length}deg)`,
               background: `linear-gradient(to top, ${getHSL[0][index]}, ${getHSL[1][index]})`,
             }"
-          ></div>
+          >
+            <div class="flash" ref="flash"></div>
+          </div>
         </div>
       </div>
       <div class="content">
@@ -98,6 +100,7 @@ export default {
   data() {
     return {
       pointerRotate: "0",
+      winningNum: "",
     };
   },
   methods: {
@@ -111,6 +114,8 @@ export default {
       const resultIdx = this.lunchList.findIndex(
         (item) => item == this.prizePool[prizePoolIdx]
       );
+      this.winningNum = resultIdx;
+
       this.$refs.hand.style.transition = `transform ${
         Math.floor(Math.random() * (12 - 8)) + 8
         // Math.floor(Math.random() * (3 - 1)) + 1
@@ -123,14 +128,18 @@ export default {
     spinning() {
       if (!this.pointerRotate) return;
       this.$refs.hand.style.transition = "none";
+
+      this.$refs.flash[this.getWinningNum()].classList.add("start");
+
       setTimeout(() => {
+        this.$refs.flash[this.getWinningNum()].classList.remove("start");
         this.$store.commit("toggleShowWinning");
         this.pointerRotate = "0";
-      }, 500);
+      }, 1600);
     },
-    // editList() {
-    //   this.$store.commit("toggleEdit");
-    // },
+    getWinningNum() {
+      return this.winningNum;
+    },
   },
   mounted() {
     this.$refs.hand.addEventListener("transitionend", this.spinning);
@@ -238,8 +247,6 @@ export default {
       overflow: hidden;
       clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%);
       pointer-events: none; // 讓元素無法被點擊
-
-      // border: 3px solid black;
       & .inner {
         position: absolute;
         // top: 0;
@@ -249,6 +256,24 @@ export default {
         // background: #5858B9;
         // transform: rotate(60deg);
         transform-origin: right center;
+        & .flash.start {
+          width: 100%;
+          height: 100%;
+          animation-name: Flash;
+          animation-duration: 0.8s;
+          animation-iteration-count: 3;
+        }
+        @keyframes Flash {
+          0% {
+            background: rgba(255, 255, 255, 0);
+          }
+          50% {
+            background: rgba(255, 255, 255, 0.3);
+          }
+          100% {
+            background: rgba(255, 255, 255, 0);
+          }
+        }
       }
     }
   }
